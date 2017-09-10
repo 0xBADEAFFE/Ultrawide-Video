@@ -1,17 +1,18 @@
-"use-strict";
+"use strict";
 
 function addClass(c) {
 	const v = document.getElementsByTagName('video');
-	for(var i=0,l=v.length; i<l; i++) {
-		if(v[i].className.indexOf(c) == -1) v[i].className += ' '+c;
-		console.log("[UltraWide] addClass",v[i],c);
+	for(var i=0,l=v.length,cl; i<l; i++) {
+		cl = v[i].classList; cl.add(c);
+		console.log("[UltraWide] addClass",c,v[i]);
 	}
 }
 function remClass(c) {
 	const v = document.getElementsByTagName('video');
-	for(var i=0,l=v.length; i<l; i++) {
-		v[i].className = v[i].className.replace(c,'');
-		console.log("[UltraWide] remClass",v[i],c);
+	for(var i=0,l=v.length,cl; i<l; i++) {
+		cl = v[i].classList; if(cl.contains(c)) {
+			cl.remove(c); console.log("[UltraWide] remClass",c,v[i]);
+		}
 	}
 }
 
@@ -42,16 +43,18 @@ UltraWide.prototype.update = function() {
 	break; case 1: //Aspect
 		if(fullscreen && this.scale > 1) {
 			addClass('extraClassAspect');
-		} else {
 			remClass('extraClassCrop');
+		} else {
 			remClass('extraClassAspect');
+			remClass('extraClassCrop');
 		}
 	break; case 2: //Crop
 		if(fullscreen && this.scale > 1) {
 			addClass('extraClassCrop');
-		} else {
-			remClass('extraClassCrop');
 			remClass('extraClassAspect');
+		} else {
+			remClass('extraClassAspect');
+			remClass('extraClassCrop');
 		}
 	break; case 3: //Netflix-crop
 	    if(fullscreen && this.scale > 1) {
@@ -77,7 +80,8 @@ function UltraWide() {
 	}.bind(this));
 	document.addEventListener('keydown', function(e) {
 		if(e.ctrlKey && e.altKey && e.key == 'c') {
-			if(++this.mode > 3) this.mode = 0;
+			if(++this.mode > 2) this.mode = 0;
+			console.log("[UltraWide] Detected CTRL+ALT+C","Mode "+this.mode);
 			chrome.storage.local.set({'extensionMode':this.mode}, function(){});
 		}
 	}.bind(this));
@@ -85,9 +89,9 @@ function UltraWide() {
 	document.body.appendChild(this.styles);
 }
 
-const ultrawide = new UltraWide();
-
-window.onload = function() {
+function onLoad() {
+	if(!document.body) return;
+	const ultrawide = new UltraWide();
 	chrome.storage.local.get('extensionMode', function(status) {
 		ultrawide.mode = status.extensionMode;
 		if(status.extensionMode != 0) ultrawide.update();
@@ -96,4 +100,8 @@ window.onload = function() {
 		ultrawide.mode = changes.extensionMode.newValue;
 		ultrawide.update();
 	});
+	console.info("UltraWide Extension Loaded!");
 }
+
+if(document.readyState == 'complete') onLoad();
+else window.addEventListener('load', onLoad);
