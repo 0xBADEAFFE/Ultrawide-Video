@@ -23,7 +23,7 @@ UltraWide.prototype.update = function() {
 	//Calculate scale factor:
 	if(this.mode == 4 || this.mode == 5) this.scale = 1.33; //Force Modes
 	else if(screen.width / screen.height > 1.8) { //If wider than 16:9 widescreen:
-		const scale = screen.width / 1920; this.scale = Math.round(scale*100)/100;
+		const scale = screen.width / 1920; this.scale = Math.round(scale*1000)/1000;
 	} else this.scale = 1; //Default
 	
 	//Update Styles:
