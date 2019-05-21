@@ -56,17 +56,17 @@ UltraWide.prototype.update = function() {
 		}
 	break; case 3: //Netflix-crop
 	    if(fullscreen && this.scale > 1) {
-    	    addClass('extraClassCrop');
+    	    addClass(v,'extraClassCrop');
 	    } else {
-		    remClass('extraClassCrop');
-		    remClass('extraClassAspect');
+		    remClass(v,'extraClassCrop');
+		    remClass(v,'extraClassAspect');
 	    }
 	break; case 4: //Force Crop
-		addClass('extraClassCrop');
-		remClass('extraClassAspect');
+		addClass(v,'extraClassCrop');
+		remClass(v,'extraClassAspect');
 	break; case 5: //Force Aspect
-		addClass('extraClassAspect');
-		remClass('extraClassCrop');
+		addClass(v,'extraClassAspect');
+		remClass(v,'extraClassCrop');
 	break;
 	}
 	
