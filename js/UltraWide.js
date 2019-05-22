@@ -179,7 +179,7 @@ UltraWide.prototype.updateSBSMode = function () {
 function UltraWide() {
     this.mode = 0;
     this.sbsToggle = false;
-    document.addEventListener('webkitfullscreenchange', function () {
+    document.addEventListener('fullscreenchange', function () {
         this.updateAspectRatio();
     }.bind(this));
 
