@@ -9,6 +9,7 @@ function addClass(video, styleClass) {
         videoClassList.add(styleClass);
     }
 }
+
 function remClass(video, styleClass) {
     var totalVideosOnPage = video.length;
     var videoClassList = [];
@@ -25,7 +26,7 @@ function getFullScreenStatus() {
     return document.webkitCurrentFullScreenElement;
 }
 
-UltraWide.prototype.updateAspectRatio = function () {
+UltraWide.prototype.updateAspectRatio = function() {
     // Calculate scale factor:
     const aspect = screen.width / screen.height;
     if (aspect >= 1.88) { // If wider than 16:9 widescreen:
@@ -38,8 +39,7 @@ UltraWide.prototype.updateAspectRatio = function () {
         // Fix for reddit
         this.styles.innerHTML = '.extraClassAspect { -webkit-transform:scaleX(' + this.scale + ')!important; left:0!important; top:0!important; }\
         .extraClassCrop { -webkit-transform:scale(' + this.scale + ')!important; left:0!important; top:0!important; }';
-    }
-    else {
+    } else {
         this.styles.innerHTML = '.extraClassAspect { -webkit-transform:scaleX(' + this.scale + ')!important; }\
         .extraClassCrop { -webkit-transform:scale(' + this.scale + ')!important; }';
     }
@@ -55,7 +55,11 @@ UltraWide.prototype.updateAspectRatio = function () {
     const videoAspect = video[0].videoWidth / video[0].videoHeight;
 
     // Check if video is Ultrawide in 16:9 format
-    const { centerPixelColor, topPixelColor, bottomPixelColor } = getPixelColors(video);
+    const {
+        centerPixelColor,
+        topPixelColor,
+        bottomPixelColor
+    } = getPixelColors(video);
 
     // Check if video ended
     let videoEnded = video[0].ended;
@@ -81,8 +85,7 @@ UltraWide.prototype.updateAspectRatio = function () {
                 if (fullscreen && this.scale > 1) {
                     addClass(video, 'extraClassAspect');
                     remClass(video, 'extraClassCrop');
-                }
-                else {
+                } else {
                     remClass(video, 'extraClassAspect');
                     remClass(video, 'extraClassCrop');
                 }
@@ -122,7 +125,7 @@ UltraWide.prototype.updateAspectRatio = function () {
         if (this.aspectRatioTimer != null) {
             clearTimeout(this.aspectRatioTimer);
         }
-        this.aspectRatioTimer = setTimeout(function () {
+        this.aspectRatioTimer = setTimeout(function() {
             this.updateAspectRatio();
             this.aspectRatioTimer = null;
         }.bind(this), 5000);
@@ -155,7 +158,11 @@ function getPixelColors(video) {
         topBottomHeight
     );
 
-    return { centerPixelColor, topPixelColor, bottomPixelColor };
+    return {
+        centerPixelColor,
+        topPixelColor,
+        bottomPixelColor
+    };
 }
 
 function getAverageColor(imageData, width, height) {
@@ -189,7 +196,7 @@ function checkProximityToBlack(pixelColor) {
     return true;
 }
 
-UltraWide.prototype.updateSBSMode = function () {
+UltraWide.prototype.updateSBSMode = function() {
     if (window.location.host === 'www.youtube.com') {
         const video = document.getElementsByTagName('video');
         if (!video) return;
@@ -203,7 +210,7 @@ UltraWide.prototype.updateSBSMode = function () {
             if (this.sbsTimer != null) {
                 clearTimeout(this.sbsTimer);
             }
-            this.sbsTimer = setTimeout(function () {
+            this.sbsTimer = setTimeout(function() {
                 this.updateSBSMode();
                 this.sbsTimer = null;
             }.bind(this), 5000);
@@ -214,14 +221,16 @@ UltraWide.prototype.updateSBSMode = function () {
 function UltraWide() {
     this.mode = 0;
     this.sbsToggle = false;
-    document.addEventListener('fullscreenchange', function () {
+    document.addEventListener('fullscreenchange', function() {
         this.updateAspectRatio();
     }.bind(this));
 
-    document.addEventListener('keydown', function (hotKeyPressed) {
+    document.addEventListener('keydown', function(hotKeyPressed) {
         if (hotKeyPressed.ctrlKey && hotKeyPressed.altKey && hotKeyPressed.key == 'c') {
             if (++this.mode > 2) this.mode = 0;
-            chrome.storage.local.set({ 'extensionMode': this.mode }, function () { });
+            chrome.storage.local.set({
+                'extensionMode': this.mode
+            }, function() {});
         }
     }.bind(this));
 
@@ -232,15 +241,15 @@ function UltraWide() {
 function onLoad() {
     if (!document.body) return;
     const ultrawide = new UltraWide();
-    chrome.storage.local.get('extensionMode', function (status) {
+    chrome.storage.local.get('extensionMode', function(status) {
         ultrawide.mode = status.extensionMode;
         if (status.extensionMode != 0) ultrawide.updateAspectRatio();
     });
-    chrome.storage.local.get('extensionSBSToggle', function (status) {
+    chrome.storage.local.get('extensionSBSToggle', function(status) {
         ultrawide.sbsToggle = status.extensionSBSToggle;
         if (status.extensionSBSToggle != false) ultrawide.updateSBSMode();
     });
-    chrome.storage.onChanged.addListener(function (changes) {
+    chrome.storage.onChanged.addListener(function(changes) {
         if (changes.extensionMode) {
             ultrawide.mode = changes.extensionMode.newValue;
             ultrawide.updateAspectRatio();

@@ -1,65 +1,70 @@
-<html><head>
-	<title>Ultrawide Video</title>
-	<link rel="stylesheet" href="styles.css">
-	<script src="/js/popup.js"></script>
-</head>
-<body>
-	<div id="modesSel" class="modes">
-		<div>
-			<input id="disabled" name="mode" type="radio">
-			<label for="disabled">Disabled</label>
-		</div>
-		<div>
-			<input id="aspect" name="mode" type="radio">
-			<label for="aspect">
-				Aspect Ratio
-				<span class="desc">Stretch the video to fit the aspect ratio, ignore real 21:9 and non-wide 16:9 videos</span>
-			</label>
-		</div>
-		<div>
-			<input id="forceAspect" name="mode" type="radio">
-			<label for="forceAspect">
-				Force Aspect Ratio
-				<span class="desc">Stretch the video to fit the aspect ratio, regardless of detected aspect ratio</span>
-			</label>
-		</div>
-		<div>
-			<input id="crop" name="mode" type="radio">
-			<label for="crop">
-				Crop
-				<span class="desc">Crop the video to fit the aspect ratio while filling the screen, ignore real 21:9 and non-wide 16:9 videos</span>
-			</label>
-        </div>
-		<div>
-			<input id="forceCrop" name="mode" type="radio">
-			<label for="forceCrop">
-				Force Crop
-				<span class="desc">Crop the video to fit the aspect ratio while filling the screen, regardless of detected aspect ratio</span>
-			</label>
-		</div>
-        <div>
-			<input id="sbsToggle" type="checkbox">
-			<label for="sbsToggle">
-				Force SBS 3D (Toggle)
-				<span class="desc">Force 3D Anaglyph YouTube videos to display Side-By-Side</span>
-			</label>
-        </div>
-	</div>
+<html>
 
-	<a id="helpShow" href="#">help &amp; about</a>
-	<div id="help">
-		<p>Ultrawide video is designed to make viewing videos a more pleasurable experience on 21:9 aspect ratio monitors.</p>
-		<p>You can use the shortcut <strong>ctrl+alt+c</strong> to toggle between modes while viewing a video.</p>
-		<div class="attribution">
-			<p class="desc"><strong>By:</strong> <a href="https://github.com/wltrsjames">James Walters</a></p>
-			<p id="links" class="desc"><strong>Contributors:</strong>
-				<a href="https://github.com/Asvarox">Asvarox</a>,
-				<a href="https://github.com/legotheboss">legotheboss</a>,
-				<a href="https://github.com/steenburgh">steenburgh</a>,
-				<a href="https://github.com/simonmckeon">Simon McKeon</a> &amp;
-				<a href="https://github.com/Pecacheu">Pecacheu</a>
-			</p>
-		</div>
-		<a id="helpHide" href="#">close</a>
-	</div>
-</body></html>
+<head>
+    <title>Ultrawide Video</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/js/popup.js"></script>
+</head>
+
+<body>
+    <div id="modesSel" class="modes">
+        <div>
+            <input id="disabled" name="mode" type="radio">
+            <label for="disabled">Disabled</label>
+        </div>
+        <div>
+            <input id="aspect" name="mode" type="radio">
+            <label for="aspect">
+                Aspect Ratio
+                <span class="desc">Stretch the video to fit the aspect ratio, ignore real 21:9 and non-wide 16:9 videos</span>
+            </label>
+        </div>
+        <div>
+            <input id="forceAspect" name="mode" type="radio">
+            <label for="forceAspect">
+                Force Aspect Ratio
+                <span class="desc">Stretch the video to fit the aspect ratio, regardless of detected aspect ratio</span>
+            </label>
+        </div>
+        <div>
+            <input id="crop" name="mode" type="radio">
+            <label for="crop">
+                Crop
+                <span class="desc">Crop the video to fit the aspect ratio while filling the screen, ignore real 21:9 and non-wide 16:9 videos</span>
+            </label>
+        </div>
+        <div>
+            <input id="forceCrop" name="mode" type="radio">
+            <label for="forceCrop">
+                Force Crop
+                <span class="desc">Crop the video to fit the aspect ratio while filling the screen, regardless of detected aspect ratio</span>
+            </label>
+        </div>
+        <div>
+            <input id="sbsToggle" type="checkbox">
+            <label for="sbsToggle">
+                Force SBS 3D (Toggle)
+                <span class="desc">Force 3D Anaglyph YouTube videos to display Side-By-Side</span>
+            </label>
+        </div>
+    </div>
+
+    <a id="helpShow" href="#">help &amp; about</a>
+    <div id="help">
+        <p>Ultrawide video is designed to make viewing videos a more pleasurable experience on 21:9 aspect ratio monitors.</p>
+        <p>You can use the shortcut <strong>ctrl+alt+c</strong> to toggle between modes while viewing a video.</p>
+        <div class="attribution">
+            <p class="desc"><strong>By:</strong> <a href="https://github.com/wltrsjames">James Walters</a></p>
+            <p id="links" class="desc"><strong>Contributors:</strong>
+                <a href="https://github.com/Asvarox">Asvarox</a>,
+                <a href="https://github.com/legotheboss">legotheboss</a>,
+                <a href="https://github.com/steenburgh">steenburgh</a>,
+                <a href="https://github.com/simonmckeon">Simon McKeon</a> &amp;
+                <a href="https://github.com/Pecacheu">Pecacheu</a>
+            </p>
+        </div>
+        <a id="helpHide" href="#">close</a>
+    </div>
+</body>
+
+</html>
