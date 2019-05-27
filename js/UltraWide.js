@@ -34,7 +34,15 @@ UltraWide.prototype.updateAspectRatio = function () {
     } else this.scale = 1; // Default
 
     // Update Styles:
-    this.styles.innerHTML = '.extraClassCrop { -webkit-transform:scale(' + this.scale + ')!important; }';
+    if (window.location.host === 'www.reddit.com') {
+        // Fix for reddit
+        this.styles.innerHTML = '.extraClassAspect { -webkit-transform:scaleX(' + this.scale + ')!important; left:0!important; top:0!important; }\
+        .extraClassCrop { -webkit-transform:scale(' + this.scale + ')!important; left:0!important; top:0!important; }';
+    }
+    else {
+        this.styles.innerHTML = '.extraClassAspect { -webkit-transform:scaleX(' + this.scale + ')!important; }\
+        .extraClassCrop { -webkit-transform:scale(' + this.scale + ')!important; }';
+    }
 
     const fullscreen = getFullScreenStatus();
 
@@ -49,12 +57,15 @@ UltraWide.prototype.updateAspectRatio = function () {
     // Check if video is Ultrawide in 16:9 format
     const { centerPixelColor, topPixelColor, bottomPixelColor } = getPixelColors(video);
 
+    // Check if video ended
+    let videoEnded = video[0].ended;
+
     // Check topPixel first, and if it is black, then check if centerPixel is the same color
     // If topPixel is black, and centerPixel is not, then apply the zoom
     let shouldCrop = false;
 
     if (checkProximityToBlack(topPixelColor) && checkProximityToBlack(bottomPixelColor)) {
-        if (!checkProximityToBlack(centerPixelColor)) {
+        if (!checkProximityToBlack(centerPixelColor) || !videoEnded) {
             shouldCrop = true;
         }
     }
@@ -63,19 +74,43 @@ UltraWide.prototype.updateAspectRatio = function () {
     if (video.length !== 0) {
         switch (this.mode) {
             case 0: // Disabled
+                remClass(video, 'extraClassAspect');
                 remClass(video, 'extraClassCrop');
                 break;
-            case 1: // Crop
-                if (fullscreen && this.scale > 1 && videoAspect < 2.37 & shouldCrop) {
-                    addClass(video, 'extraClassCrop');
-                } else {
+            case 1: // Aspect
+                if (fullscreen && this.scale > 1) {
+                    addClass(video, 'extraClassAspect');
+                    remClass(video, 'extraClassCrop');
+                }
+                else {
+                    remClass(video, 'extraClassAspect');
                     remClass(video, 'extraClassCrop');
                 }
                 break;
-            case 2: // Force Crop
+            case 2: // Crop
+                if (fullscreen && this.scale > 1 && videoAspect < 2.37 & shouldCrop) {
+                    addClass(video, 'extraClassCrop');
+                    remClass(video, 'extraClassAspect');
+                } else {
+                    remClass(video, 'extraClassAspect');
+                    remClass(video, 'extraClassCrop');
+                }
+                break;
+            case 3: // Force Crop
                 if (fullscreen) {
                     addClass(video, 'extraClassCrop');
+                    remClass(video, 'extraClassAspect');
                 } else {
+                    remClass(video, 'extraClassAspect');
+                    remClass(video, 'extraClassCrop');
+                }
+                break;
+            case 4: // Force Aspect
+                if (fullscreen) {
+                    addClass(video, 'extraClassAspect');
+                    remClass(video, 'extraClassCrop');
+                } else {
+                    remClass(video, 'extraClassAspect');
                     remClass(video, 'extraClassCrop');
                 }
                 break;

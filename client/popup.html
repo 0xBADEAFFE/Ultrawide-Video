@@ -10,6 +10,20 @@
 			<label for="disabled">Disabled</label>
 		</div>
 		<div>
+			<input id="aspect" name="mode" type="radio">
+			<label for="aspect">
+				Aspect Ratio
+				<span class="desc">Stretch the video to fit the aspect ratio, ignore real 21:9 and non-wide 16:9 videos</span>
+			</label>
+		</div>
+		<div>
+			<input id="forceAspect" name="mode" type="radio">
+			<label for="forceAspect">
+				Force Aspect Ratio
+				<span class="desc">Stretch the video to fit the aspect ratio, regardless of detected aspect ratio</span>
+			</label>
+		</div>
+		<div>
 			<input id="crop" name="mode" type="radio">
 			<label for="crop">
 				Crop
@@ -22,7 +36,7 @@
 				Force Crop
 				<span class="desc">Crop the video to fit the aspect ratio while filling the screen, regardless of detected aspect ratio</span>
 			</label>
-        </div>
+		</div>
         <div>
 			<input id="sbsToggle" type="checkbox">
 			<label for="sbsToggle">

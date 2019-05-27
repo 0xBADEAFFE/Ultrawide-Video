@@ -1,5 +1,6 @@
 var modeMap = {
-	disabled: 0, crop: 1, forceCrop: 2
+	disabled:0, aspect:1, crop:2,
+	forceCrop:3, forceAspect:4
 };
 
 window.onload = function () {
