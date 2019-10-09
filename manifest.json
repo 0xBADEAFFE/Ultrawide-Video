@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "UltraWide Video",
-    "version": "1.8",
+    "name": "UltraWide Video Extended",
+    "version": "1.81",
     "description": "Allows wider than average screens (eg.21:9) to play online video content and fit the screen properly in fullscreen mode.",
     "icons": {
         "128": "images/icon.png"
@@ -21,7 +21,7 @@
     },
     "browser_action": {
         "default_icon": "images/icon.png",
-        "default_title": "UltraWide Video",
+        "default_title": "UltraWide Video Extended",
         "default_popup": "client/popup.html"
     }
 }
