@@ -54,25 +54,8 @@ UltraWide.prototype.updateAspectRatio = function() {
     // Check if video is already Ultrawide
     const videoAspect = video[0].videoWidth / video[0].videoHeight;
 
-    // Check if video is Ultrawide in 16:9 format
-    const {
-        centerPixelColor,
-        topPixelColor,
-        bottomPixelColor
-    } = getPixelColors(video);
-
     // Check if video ended
     let videoEnded = video[0].ended;
-
-    // Check topPixel first, and if it is black, then check if centerPixel is the same color
-    // If topPixel is black, and centerPixel is not, then apply the zoom
-    let shouldCrop = false;
-
-    if (checkProximityToBlack(topPixelColor) && checkProximityToBlack(bottomPixelColor)) {
-        if (!checkProximityToBlack(centerPixelColor) || !videoEnded) {
-            shouldCrop = true;
-        }
-    }
 
     // Update Classes:
     if (video.length !== 0) {
@@ -91,7 +74,7 @@ UltraWide.prototype.updateAspectRatio = function() {
                 }
                 break;
             case 2: // Crop
-                if (fullscreen && this.scale > 1 && videoAspect < 2.37 & shouldCrop) {
+                if (fullscreen && this.scale > 1 && videoAspect < 2.37) {
                     addClass(video, 'extraClassCrop');
                     remClass(video, 'extraClassAspect');
                 } else {
@@ -130,70 +113,6 @@ UltraWide.prototype.updateAspectRatio = function() {
             this.aspectRatioTimer = null;
         }.bind(this), 5000);
     }
-}
-
-function getPixelColors(video) {
-    const canvas = document.createElement('canvas');
-    canvas.height = video[0].videoHeight;
-    canvas.width = video[0].videoWidth;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video[0], 0, 0, canvas.width, canvas.height);
-
-    const centerHeight = canvas.height - canvas.height / 4.5;
-    const topBottomHeight = canvas.height / 9;
-
-    const centerPixelColor = getAverageColor(
-        ctx.getImageData(0, canvas.height / 9, canvas.width, centerHeight).data,
-        canvas.width,
-        topBottomHeight
-    );
-    const topPixelColor = getAverageColor(
-        ctx.getImageData(0, 0, canvas.width, topBottomHeight).data,
-        canvas.width,
-        topBottomHeight
-    );
-    const bottomPixelColor = getAverageColor(
-        ctx.getImageData(0, canvas.height - canvas.height / 9, canvas.width, topBottomHeight).data,
-        canvas.width,
-        topBottomHeight
-    );
-
-    return {
-        centerPixelColor,
-        topPixelColor,
-        bottomPixelColor
-    };
-}
-
-function getAverageColor(imageData, width, height) {
-    let red = 0,
-        green = 0,
-        blue = 0,
-        length = 4 * width * height;
-
-    for (var i = 0; i < length; i += 4) {
-        red += imageData[i];
-        green += imageData[i + 1];
-        blue += imageData[i + 2];
-    }
-    length = length / 4;
-    red = Math.round(red / length);
-    green = Math.round(green / length);
-    blue = Math.round(blue / length);
-
-    return [red, green, blue];
-}
-
-function checkProximityToBlack(pixelColor) {
-    // No single one value should be over 30
-    if (pixelColor.sort()[2] > 30) return false;
-
-    // The max difference between any two of the color values should be no more than 5
-    if (Math.abs(pixelColor[1] - pixelColor[2]) > 5) return false;
-    if (Math.abs(pixelColor[0] - pixelColor[2]) > 5) return false;
-    if (Math.abs(pixelColor[0] - pixelColor[1]) > 5) return false;
-
-    return true;
 }
 
 UltraWide.prototype.updateSBSMode = function() {
